@@ -8,32 +8,44 @@
 
 void threadFunc(int id)
 {
-    for (int i = 0; i < 100; i++)
+    try
     {
-        cdLog(LogLevel::Info, "thread") << "Thread " << id << ", Message " << i;
+        for (int i = 0; i < 100; i++)
+        {
+            cdLog(LogLevel::Info, "thread") << "Thread " << id << ", Message " << i;
+        }
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "thread exception: " << ex.what() << std::endl;
     }
 }
 
 int main()
 {
-    std::list<std::shared_ptr<std::thread> > oThreads;
-    Logger::getLogger().addStream("test.log");
-    Logger::getLogger().addStream(&std::cout);
-    for (int i = 0; i < 100; i++)
+    try
     {
-        oThreads.push_back(std::shared_ptr<std::thread>(new std::thread(threadFunc, i)));
-    }
+        std::list<std::shared_ptr<std::thread> > threads;
+        Logger::getLogger().addStream("test.log");
+        Logger::getLogger().addStream(&std::cout);
+        for (int i = 0; i < 100; i++)
+        {
+            threads.push_back(std::shared_ptr<std::thread>(new std::thread(threadFunc, i)));
+        }
 
-    // also do logging from the main thread
-    for (int i = 0; i < 100; i++)
-    {
-        cdLog(LogLevel::Debug, "main") << "Main thread, Message " << i;
-    }
+        for (int i = 0; i < 100; i++)
+        {
+            cdLog(LogLevel::Debug, "main") << "Main thread, Message " << i;
+        }
 
-    // wait for all the threads to finish
-    for (std::shared_ptr<std::thread> oThread : oThreads)
+        for (std::shared_ptr<std::thread> thread : threads)
+        {
+            thread->join();
+        }
+    }
+    catch (const std::exception& ex)
     {
-        oThread->join();
+        std::cout << "main exception: " << ex.what() << std::endl;
     }
 
     return 0;
