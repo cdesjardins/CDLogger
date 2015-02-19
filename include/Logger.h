@@ -1,5 +1,5 @@
 /*
-    ComBomb - Terminal emulator
+    CDLogger
     Copyright (C) 2015  Chris Desjardins
     http://blog.chrisd.info cjd@chrisd.info
 
@@ -58,7 +58,7 @@ private:
 
     friend class Logger;
     Logger& _logger;
-    LogLevel  _level;
+    LogLevel _level;
     std::string _tag;
 };
 
@@ -69,6 +69,7 @@ public:
     {
         return _logger;
     }
+
     Logger();
     virtual ~Logger();
 

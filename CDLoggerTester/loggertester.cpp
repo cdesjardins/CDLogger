@@ -5,7 +5,6 @@
 #include <memory>
 #include <iostream>
 
-
 void threadFunc(int id)
 {
     try

@@ -1,20 +1,20 @@
 /*
-ComBomb - Terminal emulator
-Copyright (C) 2015  Chris Desjardins
-http://blog.chrisd.info cjd@chrisd.info
+    CDLogger
+    Copyright (C) 2015  Chris Desjardins
+    http://blog.chrisd.info cjd@chrisd.info
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Logger.h"
@@ -57,12 +57,12 @@ public:
     void log(const tm& localTime, const std::string levelName, const std::string& tag, const std::string& msg)
     {
         *_stream << (1900 + localTime.tm_year) << '-'
-            << std::setfill('0') << std::setw(2) << (localTime.tm_mon + 1) << '-'
-            << std::setfill('0') << std::setw(2) << localTime.tm_mday << ' '
-            << std::setfill('0') << std::setw(2) << localTime.tm_hour << ':'
-            << std::setfill('0') << std::setw(2) << localTime.tm_min << ':'
-            << std::setfill('0') << std::setw(2) << localTime.tm_sec << " ("
-            << levelName << "/" << tag << ") " << msg << std::endl;
+                 << std::setfill('0') << std::setw(2) << (localTime.tm_mon + 1) << '-'
+                 << std::setfill('0') << std::setw(2) << localTime.tm_mday << ' '
+                 << std::setfill('0') << std::setw(2) << localTime.tm_hour << ':'
+                 << std::setfill('0') << std::setw(2) << localTime.tm_min << ':'
+                 << std::setfill('0') << std::setw(2) << localTime.tm_sec << " ("
+                 << levelName << "/" << tag << ") " << msg << std::endl;
     }
 
     void flush()
@@ -132,3 +132,4 @@ LogStream::~LogStream()
 {
     _logger.log(_level, _tag, str());
 }
+
