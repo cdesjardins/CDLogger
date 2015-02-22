@@ -31,7 +31,7 @@
 #include <map>
 #include <vector>
 
-#define cdLog(level, tag) if (level < Logger::getLogger().getMinLogLevel()) {} else Logger::getLogger()(level, tag)
+#define cdLog(level) if (level < Logger::getLogger().getMinLogLevel()) {} else Logger::getLogger()(level, LOG_TAG)
 
 enum class LogLevel { Debug, Info, Error, maxlevels };
 class Logger;
