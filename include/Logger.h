@@ -80,7 +80,7 @@ public:
         return _minLogLevel;
     }
 
-    void setMinLogLevle(LogLevel minLogLevel)
+    void setMinLogLevel(LogLevel minLogLevel)
     {
         _minLogLevel = minLogLevel;
     }
