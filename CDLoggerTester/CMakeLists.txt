@@ -11,3 +11,5 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 include_directories(../include)
 set_property(TARGET CDLoggerTester PROPERTY CXX_STANDARD 11)
+install(TARGETS CDLoggerTester DESTINATION bin)
+

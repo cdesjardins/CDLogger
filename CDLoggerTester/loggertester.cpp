@@ -4,19 +4,19 @@
 #include <list>
 #include <memory>
 #include <iostream>
-
+#define LOG_TAG "loggertester"
 void threadFunc(int id)
 {
     try
     {
         for (int i = 0; i < 100; i++)
         {
-            cdLog(LogLevel::Info, "thread") << "Thread " << id << ", Message " << i;
+            cdLog(LogLevel::Info) << "Thread " << id << ", Message " << i;
         }
     }
     catch (const std::exception& ex)
     {
-        std::cout << "thread exception: " << ex.what() << std::endl;
+        cdLog(LogLevel::Error) << "thread exception: " << ex.what();
     }
 }
 
@@ -34,7 +34,7 @@ int main()
 
         for (int i = 0; i < 100; i++)
         {
-            cdLog(LogLevel::Debug, "main") << "Main thread, Message " << i;
+            cdLog(LogLevel::Debug) << "Main thread, Message " << i;
         }
 
         for (std::shared_ptr<std::thread> thread : threads)
@@ -44,7 +44,7 @@ int main()
     }
     catch (const std::exception& ex)
     {
-        std::cout << "main exception: " << ex.what() << std::endl;
+        cdLog(LogLevel::Error) << "main exception: " << ex.what();
     }
 
     return 0;
