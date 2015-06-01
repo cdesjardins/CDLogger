@@ -95,7 +95,13 @@ Logger::~Logger()
 
 LogStream Logger::operator()(LogLevel level, const std::string& tag)
 {
-    return LogStream(*this, level, tag);
+    std::string t = tag;
+    size_t index = tag.find_last_of("/\\");
+    if (index != std::string::npos)
+    {
+        t = tag.substr(index + 1);
+    }
+    return LogStream(*this, level, t);
 }
 
 void Logger::getLocalTime(tm* localTime)
