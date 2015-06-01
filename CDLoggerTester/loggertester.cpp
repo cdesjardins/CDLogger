@@ -1,10 +1,9 @@
 #include "Logger.h"
-
 #include <thread>
 #include <list>
 #include <memory>
 #include <iostream>
-#define LOG_TAG "loggertester"
+
 void threadFunc(int id)
 {
     try
