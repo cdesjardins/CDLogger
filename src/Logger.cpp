@@ -54,14 +54,23 @@ public:
         }
     }
 
-    void log(const tm& localTime, const std::string levelName, const std::string& tag, const std::string& msg)
+    void log(const std::string levelName, const std::string& tag, const std::string& msg)
     {
+        tm localTime;
+        std::chrono::system_clock::time_point t = std::chrono::system_clock::now();
+        time_t now = std::chrono::system_clock::to_time_t(t);
+        localtime_r(&now, &localTime);
+
+        const std::chrono::duration<double> tse = t.time_since_epoch();
+        std::chrono::seconds::rep milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(tse).count() % 1000;
+
         *_stream << (1900 + localTime.tm_year) << '-'
                  << std::setfill('0') << std::setw(2) << (localTime.tm_mon + 1) << '-'
                  << std::setfill('0') << std::setw(2) << localTime.tm_mday << ' '
                  << std::setfill('0') << std::setw(2) << localTime.tm_hour << ':'
                  << std::setfill('0') << std::setw(2) << localTime.tm_min << ':'
-                 << std::setfill('0') << std::setw(2) << localTime.tm_sec << " ("
+                 << std::setfill('0') << std::setw(2) << localTime.tm_sec << '.'
+                 << std::setfill('0') << std::setw(3) << milliseconds << " ("
                  << levelName << "/" << tag << ") " << msg << std::endl;
     }
 
@@ -104,21 +113,12 @@ LogStream Logger::operator()(LogLevel level, const std::string& tag)
     return LogStream(*this, level, t);
 }
 
-void Logger::getLocalTime(tm* localTime)
-{
-    time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    localtime_r(&now, localTime);
-}
-
 void Logger::log(LogLevel level, const std::string& tag, const std::string& msg)
 {
-    tm localTime;
-    getLocalTime(&localTime);
-
     std::unique_lock<std::mutex> lock(_mutex);
     for (std::shared_ptr<LoggerData> it : _outStreams)
     {
-        it->log(localTime, _levelNames[level], tag, msg);
+        it->log(_levelNames[level], tag, msg);
     }
 }
 

@@ -91,7 +91,6 @@ public:
     LogStream operator()(LogLevel level, const std::string& tag);
 
 private:
-    void getLocalTime(tm* localTime);
 
     static Logger _logger;
     std::mutex _mutex;
