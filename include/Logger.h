@@ -50,7 +50,9 @@ private:
     }
 
     LogStream(const LogStream& other)
-        : _logger(other._logger),
+        : std::ios(),
+        std::ostringstream(),
+        _logger(other._logger),
         _level(other._level),
         _tag(other._tag)
     {
