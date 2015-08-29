@@ -25,7 +25,8 @@ int main()
     {
         std::list<std::shared_ptr<std::thread> > threads;
         Logger::getLogger().addStream("test.log");
-        Logger::getLogger().addStream(std::shared_ptr<std::ostream>(&std::cout, [](void*) {}));
+        Logger::getLogger().addStream(std::shared_ptr<std::ostream>(&std::cout, [](void*) {
+        }));
         for (int i = 0; i < 100; i++)
         {
             threads.push_back(std::shared_ptr<std::thread>(new std::thread(threadFunc, i)));
