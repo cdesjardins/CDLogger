@@ -34,24 +34,19 @@ public:
     LoggerData(const LoggerData&) = delete;
 
     LoggerData(const std::string& filename)
-        : _allocated(true)
+        : _stream(new std::ofstream(filename))
     {
-        _stream = new std::ofstream(filename);
     }
 
-    LoggerData(std::ostream* stream)
-        : _stream(stream),
-        _allocated(false)
+    LoggerData(const std::shared_ptr<std::ostream>& stream)
+        : _stream(stream)
     {
     }
 
     ~LoggerData()
     {
         _stream->flush();
-        if (_allocated == true)
-        {
-            delete _stream;
-        }
+        _stream.reset();
     }
 
     void log(const std::string levelName, const std::string& tag, const std::string& msg)
@@ -80,8 +75,7 @@ public:
     }
 
 private:
-    std::ostream* _stream;
-    bool _allocated;
+    std::shared_ptr<std::ostream> _stream;
 };
 
 Logger::Logger()
@@ -128,7 +122,7 @@ void Logger::addStream(const std::string& filename)
     _outStreams.push_back(std::shared_ptr<LoggerData>(new LoggerData(filename)));
 }
 
-void Logger::addStream(std::ostream* stream)
+void Logger::addStream(const std::shared_ptr<std::ostream>& stream)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     _outStreams.push_back(std::shared_ptr<LoggerData>(new LoggerData(stream)));
