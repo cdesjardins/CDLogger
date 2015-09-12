@@ -89,11 +89,7 @@ Logger::Logger()
 
 Logger::~Logger()
 {
-    for (std::shared_ptr<LoggerData> it : _outStreams)
-    {
-        it->flush();
-    }
-    _outStreams.clear();
+    stopLogging();
 }
 
 LogStream Logger::operator()(LogLevel level, const std::string& tag)
@@ -126,6 +122,15 @@ void Logger::addStream(const std::shared_ptr<std::ostream>& stream)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     _outStreams.push_back(std::shared_ptr<LoggerData>(new LoggerData(stream)));
+}
+
+void Logger::stopLogging()
+{
+    for (std::shared_ptr<LoggerData> it : _outStreams)
+    {
+        it->flush();
+    }
+    _outStreams.clear();
 }
 
 LogStream::~LogStream()

@@ -90,6 +90,7 @@ public:
     // To add stdout as a stream:
     // addStream(std::shared_ptr<std::ostream>(&std::cout, [](void*) {}))
     void addStream(const std::shared_ptr<std::ostream>& stream);
+    void stopLogging();
 
     LogStream operator()(LogLevel level, const std::string& tag);
 
