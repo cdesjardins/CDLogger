@@ -31,7 +31,7 @@
 #include <map>
 #include <vector>
 
-#define cdLog(level) if (level < Logger::getLogger().getMinLogLevel()) {} else Logger::getLogger()(level, __FILE__)
+#define cdLog(level) if (Logger::isLogging(level) == false) {} else Logger::getLogger()(level, __FILE__)
 
 enum class LogLevel { Debug, Info, Error, maxlevels };
 class Logger;
@@ -93,7 +93,7 @@ public:
     void stopLogging();
 
     LogStream operator()(LogLevel level, const std::string& tag);
-
+    static bool isLogging(LogLevel level);
 private:
 
     static Logger _logger;
