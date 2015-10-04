@@ -26,6 +26,7 @@
 #endif
 
 Logger Logger::_logger;
+bool s_cdLogging = false;
 
 class LoggerData
 {
@@ -86,10 +87,12 @@ Logger::Logger()
     _levelNames[LogLevel::Info] = "Info";
     _levelNames[LogLevel::Error] = "Error";
     assert(_levelNames.size() == (size_t)LogLevel::maxlevels);
+    s_cdLogging = true;
 }
 
 Logger::~Logger()
 {
+    s_cdLogging = false;
     stopLogging();
 }
 
@@ -132,6 +135,11 @@ void Logger::stopLogging()
         it->flush();
     }
     _outStreams.clear();
+}
+
+bool Logger::isLogging(LogLevel level)
+{
+    return ((s_cdLogging == true) && (level >= Logger::getLogger().getMinLogLevel())) ? true : false;
 }
 
 LogStream::~LogStream()
