@@ -146,4 +146,3 @@ LogStream::~LogStream()
 {
     _logger.log(_level, _tag, str());
 }
-
