@@ -20,6 +20,7 @@
 #include "Logger.h"
 #include <iomanip>
 #include <cassert>
+#include <chrono>
 
 #ifdef WIN32
 #define localtime_r(_Time, _Tm) localtime_s(_Tm, _Time)
